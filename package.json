@@ -27,10 +27,7 @@
   },
   "homepage": "https://github.com/jaebradley/urban-dictionary-client#readme",
   "jest": {
-    "testEnvironment": "node",
-    "setupFiles": [
-      "./src/setupTest.js"
-    ]
+    "testEnvironment": "node"
   },
   "devDependencies": {
     "@commitlint/cli": "^5.1.1",
