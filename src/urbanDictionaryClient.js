@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 class UrbanDictionaryClient {
-  static async search(term) {
+  static search(term) {
     return axios.get('https://api.urbandictionary.com/v0/define', { params: { term } });
   }
 }
