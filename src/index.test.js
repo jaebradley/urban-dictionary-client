@@ -1,11 +1,11 @@
 import axios from 'axios';
-import UrbanDictionaryClient from './urbanDictionaryClient';
+import { search } from './index';
 
 describe('UrbanDictionaryClient', () => {
   describe('search', () => {
     describe('integration test', () => {
       it('should get search results', async () => {
-        const response = await UrbanDictionaryClient.search('urban dictionary');
+        const response = await search('urban dictionary');
         expect(response.status).toBe(200);
         expect(response.data).not.toBeUndefined();
         expect(response.data).toEqual(expect.objectContaining({
@@ -31,7 +31,7 @@ describe('UrbanDictionaryClient', () => {
       });
 
       it('should get search results', async () => {
-        const response = await UrbanDictionaryClient.search(term);
+        const response = await search(term);
         expect(response).toEqual(value);
         expect(getSpy).toHaveBeenCalledTimes(1);
         expect(getSpy).toHaveBeenCalledWith('https://api.urbandictionary.com/v0/define', { params: { term } });

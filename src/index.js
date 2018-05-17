@@ -1,3 +1,5 @@
-import UrbanDictionaryClient from './urbanDictionaryClient';
+import axios from 'axios';
 
-export default UrbanDictionaryClient;
+const search = term => axios.get('https://api.urbandictionary.com/v0/define', { params: { term } });
+
+export { search }; // eslint-disable-line
