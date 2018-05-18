@@ -1,14 +1,13 @@
 import axios from 'axios';
-import UrbanDictionaryClient from './urbanDictionaryClient';
+import { search } from './index';
 
 describe('UrbanDictionaryClient', () => {
   describe('search', () => {
     describe('integration test', () => {
       it('should get search results', async () => {
-        const response = await UrbanDictionaryClient.search('urban dictionary');
-        expect(response.status).toBe(200);
-        expect(response.data).not.toBeUndefined();
-        expect(response.data).toEqual(expect.objectContaining({
+        const response = await search('urban dictionary');
+        expect(response).not.toBeUndefined();
+        expect(response).toEqual(expect.objectContaining({
           tags: expect.any(Array),
           result_type: expect.any(String),
           list: expect.any(Array),
@@ -19,11 +18,11 @@ describe('UrbanDictionaryClient', () => {
 
     describe('unit test', () => {
       const term = 'term';
-      const value = 'value';
+      const value = { data: 'value' };
       let getSpy;
 
       beforeEach(() => {
-        getSpy = jest.spyOn(axios, 'get').mockReturnValue(value);
+        getSpy = jest.spyOn(axios, 'get').mockReturnValue(Promise.resolve(value));
       });
 
       afterEach(() => {
@@ -31,8 +30,8 @@ describe('UrbanDictionaryClient', () => {
       });
 
       it('should get search results', async () => {
-        const response = await UrbanDictionaryClient.search(term);
-        expect(response).toEqual(value);
+        const response = await search(term);
+        expect(response).toEqual('value');
         expect(getSpy).toHaveBeenCalledTimes(1);
         expect(getSpy).toHaveBeenCalledWith('https://api.urbandictionary.com/v0/define', { params: { term } });
       });
