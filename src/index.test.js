@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { search } from './index';
 
+jest.setTimeout(20000);
+
 describe('UrbanDictionaryClient', () => {
   describe('search', () => {
     describe('integration test', () => {
