@@ -1,52 +1,59 @@
 import babel from 'rollup-plugin-babel';
-import commonjs from 'rollup-plugin-commonjs';
-import resolve from 'rollup-plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
 import localResolve from 'rollup-plugin-local-resolve';
 import filesize from 'rollup-plugin-filesize';
-import minify from 'rollup-plugin-babel-minify';
-import uglify from 'rollup-plugin-uglify';
 
 import pkg from './package.json';
 
-const config = {
-  input: 'src/index.js',
-  output: [
-    {
-      file: pkg.browser,
-      format: 'umd',
-      name: pkg.name,
-      globals: ['axios'],
-    },
-    {
-      file: pkg.main,
-      format: 'cjs',
-      name: pkg.name,
-      globals: ['axios'],
-    },
-    {
-      file: pkg.module,
-      format: 'es',
-      name: pkg.name,
-      globals: ['axios'],
-    },
-  ],
-  external: ['axios'],
-  plugins: [
-    babel({ exclude: 'node_modules/**' }),
-    localResolve(),
-    resolve({
-      module: true,
-      jsnext: true,
-      main: true,
-      preferBuiltins: true,
-      browser: true,
-      modulesOnly: true,
-    }),
-    minify(),
-    uglify(),
-    commonjs(),
-    filesize(),
-  ],
+const INPUT_FILE_PATH = 'src/index.js';
+
+const GLOBALS = {
+  axios: 'axios',
 };
+
+const EXTERNAL = ['axios'];
+
+const PLUGINS = [
+  babel({ exclude: 'node_modules/**' }),
+  localResolve(),
+  resolve({
+    module: true,
+    jsnext: true,
+    main: true,
+    preferBuiltins: true,
+    browser: true,
+    modulesOnly: true,
+  }),
+  commonjs(),
+  filesize(),
+];
+
+const OUTPUT_DATA = [
+  {
+    file: pkg.browser,
+    format: 'umd',
+  },
+  {
+    file: pkg.main,
+    format: 'cjs',
+  },
+  {
+    file: pkg.module,
+    format: 'es',
+  },
+];
+
+const config = OUTPUT_DATA.map(({ file, format }) => ({
+  input: INPUT_FILE_PATH,
+  output: {
+    file,
+    format,
+    name: pkg.name,
+    globals: GLOBALS,
+  },
+  external: EXTERNAL,
+  plugins: PLUGINS,
+}));
 
 export default config;
