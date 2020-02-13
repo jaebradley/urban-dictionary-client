@@ -10,10 +10,7 @@ describe('UrbanDictionaryClient', () => {
         const response = await search('urban dictionary');
         expect(response).not.toBeUndefined();
         expect(response).toEqual(expect.objectContaining({
-          tags: expect.any(Array),
-          result_type: expect.any(String),
           list: expect.any(Array),
-          sounds: expect.any(Array),
         }));
       });
     });
