@@ -1,9 +1,17 @@
 import axios from 'axios';
-import { search } from './index';
+import { autocompleteExtra, search } from './index';
 
 jest.setTimeout(20000);
 
 describe('UrbanDictionaryClient', () => {
+  describe('autocompleteExtra', () => {
+    describe('integration test', () => {
+      it('should get autocomplete results', async () => {
+        const response = await autocompleteExtra('jae');
+        expect(response).not.toBeUndefined();
+      });
+    });
+  });
   describe('search', () => {
     describe('integration test', () => {
       it('should get search results', async () => {
